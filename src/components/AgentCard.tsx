@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star, MessageCircle, Wallet, Shield, Bot, Users, Globe, Lock, CheckCircle } from "lucide-react";
+import { Star, MessageCircle, Wallet, Shield, Bot, Users, Globe, CheckCircle } from "lucide-react";
 
 interface AgentCardProps {
   name: string;
@@ -17,8 +17,8 @@ interface AgentCardProps {
   activationStatus?: string;
   onChatClick: (agent: any) => void;
   onPayClick: (agent: any) => void;
-  isWalletConnected?: boolean;
-  flowContracts?: any;
+
+
 }
 
 const AgentCard = ({
@@ -35,8 +35,8 @@ const AgentCard = ({
   activationStatus = "available",
   onChatClick,
   onPayClick,
-  isWalletConnected = false,
-  flowContracts
+
+  
 }: AgentCardProps) => {
   // Get role-specific icon and primary action
   const getRoleIcon = (role: string) => {
@@ -50,13 +50,11 @@ const AgentCard = ({
   };
 
   const getPrimaryAction = (role: string) => {
-    if (!isWalletConnected) return "Connect Wallet";
     if (requiresActivation) return "Activate";
     return "Use";
   };
 
   const getActivationIcon = (role: string) => {
-    if (!isWalletConnected) return Lock;
     if (requiresActivation) return Shield;
     return CheckCircle;
   };
@@ -81,10 +79,6 @@ const AgentCard = ({
   };
 
   const handlePrimaryAction = () => {
-    if (!isWalletConnected) {
-      // This will be handled by the parent component
-      return;
-    }
     if (requiresActivation) {
       onPayClick(agentData);
     } else {
@@ -92,7 +86,7 @@ const AgentCard = ({
     }
   };
 
-  const isPrimaryActionDisabled = !isWalletConnected;
+
 
   return (
     <div className="agent-card group bg-card border rounded-lg p-6 h-full flex flex-col">
@@ -150,15 +144,7 @@ const AgentCard = ({
         ))}
       </div>
 
-      {/* Web3 Status */}
-      {!isWalletConnected && (
-        <div className="mb-4 p-3 bg-muted/50 rounded-lg border border-muted">
-          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <Lock className="w-4 h-4" />
-            <span>Wallet connection required to interact with this agent</span>
-          </div>
-        </div>
-      )}
+
 
       {/* Action Buttons */}
       <div className="flex space-x-2 mt-auto">
@@ -167,7 +153,6 @@ const AgentCard = ({
           size="sm" 
           className="flex-1"
           onClick={() => onChatClick(agentData)}
-          disabled={!isWalletConnected}
         >
           <MessageCircle className="w-4 h-4 mr-1" />
           Chat
@@ -177,7 +162,6 @@ const AgentCard = ({
           size="sm" 
           className="flex-1"
           onClick={handlePrimaryAction}
-          disabled={isPrimaryActionDisabled}
         >
           <ActivationIcon className="w-4 h-4 mr-1" />
           {primaryAction}

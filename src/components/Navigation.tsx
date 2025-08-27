@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Wallet, Menu, Bot, User } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useFlowWeb3 } from "../web3";
 
 const Navigation = () => {
   const location = useLocation();
-  const { isConnected, account, connectWallet, disconnectWallet } = useFlowWeb3();
+  const { isConnected, account, disconnectWallet } = useFlowWeb3();
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -27,16 +27,13 @@ const Navigation = () => {
             <a href="/#how-it-works" className="text-muted-foreground hover:text-foreground transition-smooth">
               How It Works
             </a>
-            <Link to="/chat" className="text-muted-foreground hover:text-foreground transition-smooth flex items-center space-x-1">
-              <Bot className="w-4 h-4" />
-              <span>AI Chat</span>
-            </Link>
+
           </div>
 
           {/* CTA Buttons */}
           <div className="flex items-center space-x-4">
             {/* Wallet Status */}
-            {isConnected ? (
+            {isConnected && (
               <div className="flex items-center space-x-3">
                 <div className="hidden sm:flex items-center space-x-2 text-sm">
                   <div className="w-2 h-2 rounded-full bg-green-500"></div>
@@ -53,17 +50,7 @@ const Navigation = () => {
                   Disconnect
                 </Button>
               </div>
-            ) : (
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={connectWallet}
-              >
-                <Wallet className="w-4 h-4 mr-2" />
-                Connect Wallet
-              </Button>
             )}
-            
             <Link to="/onboarding">
               <Button variant="hero" size="sm">
                 Activate Agent

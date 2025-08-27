@@ -120,22 +120,12 @@ const AgentsDirectory = () => {
   });
 
   const handleChatClick = (agent: any) => {
-    if (!isConnected) {
-      // Show wallet connection prompt
-      alert("Please connect your wallet to chat with agents");
-      return;
-    }
     // Navigate to chat page with agent information
     navigate(`/chat?agent=${encodeURIComponent(agent.name)}&ens=${encodeURIComponent(agent.ensName)}&role=${encodeURIComponent(agent.role)}`);
   };
 
   const handlePayClick = (agent: any) => {
-    if (!isConnected) {
-      // Show wallet connection prompt
-      alert("Please connect your wallet to activate agents");
-      return;
-    }
-    // Navigate to onboarding to activate the agent
+    // Navigate to onboarding to activate the agent (and wallet if needed)
     navigate(`/onboarding?agent=${encodeURIComponent(agent.name)}&ens=${encodeURIComponent(agent.ensName)}&role=${encodeURIComponent(agent.role)}`);
   };
 
@@ -156,25 +146,7 @@ const AgentsDirectory = () => {
           </p>
         </div>
 
-        {/* Web3 Connection Status */}
-        {!isConnected && (
-          <div className="max-w-4xl mx-auto mb-8">
-            <div className="bg-card border rounded-lg p-6 text-center">
-              <div className="flex items-center justify-center mb-4">
-                <Shield className="w-8 h-8 text-muted-foreground mr-3" />
-                <h3 className="text-xl font-semibold">Wallet Connection Required</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Connect your wallet to chat with AI agents and activate their services. 
-                Your wallet enables secure blockchain interactions and agent management.
-              </p>
-              <Button variant="outline" size="lg">
-                <Wallet className="w-4 h-4 mr-2" />
-                Connect Wallet to Continue
-              </Button>
-            </div>
-          </div>
-        )}
+
 
         {/* Agent Activation Banner */}
         {isInOnboarding && (
@@ -260,8 +232,8 @@ const AgentsDirectory = () => {
               {...agent} 
               onChatClick={handleChatClick}
               onPayClick={handlePayClick}
-              isWalletConnected={isConnected}
-              flowContracts={flowContracts}
+
+              
             />
           ))}
         </div>
